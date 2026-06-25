@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   serverIp: process.env.NEXT_PUBLIC_SERVER_IP ?? "basic-1.hexnityhost.my.id",
   serverPort: process.env.NEXT_PUBLIC_SERVER_PORT ?? "19986",
   bedrockPort: process.env.NEXT_PUBLIC_BEDROCK_PORT ?? "19132",
-  discordUrl: process.env.NEXT_PUBLIC_DISCORD_INVITE ?? "https://discord.gg/skyforge",
+  discordUrl: process.env.NEXT_PUBLIC_DISCORD_INVITE ?? "https://discord.gg/3NAKrYaBgh",
   instagramUrl: "https://instagram.com/skyforge.id",
   tiktokUrl: "https://tiktok.com/@skyforge.id",
   youtubeUrl: "https://youtube.com/@skyforge",
