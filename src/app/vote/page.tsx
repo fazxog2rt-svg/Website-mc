@@ -1,14 +1,9 @@
-import React from "react";
-import type { Metadata } from "next";
-import { ExternalLink, Gift, Star, Clock, Trophy, Zap } from "lucide-react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { ExternalLink, Gift, Clock, Trophy, Zap, Flame, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-export const metadata: Metadata = {
-  title: "Vote",
-  description: "Vote untuk SkyForge dan dapatkan reward eksklusif setiap hari.",
-};
 
 const voteSites = [
   { name: "MinecraftServerList.com", url: "https://minecraftserverlist.com", cooldown: "24h", reward: "Vote Key + 500 Coins", votes: 1250, icon: "🏆" },
@@ -26,11 +21,31 @@ const voteRewards = [
   { votes: 100, icon: "💎", title: "100 Total Votes", reward: "Legendary Key + Exclusive Pet", color: "text-purple-400" },
 ];
 
+const MOCK_STREAK = 7;
+const MOCK_COMMUNITY_VOTES = 48721;
+const NEXT_VOTE_SECONDS = 14 * 3600 + 23 * 60 + 45;
+
+function formatCountdown(seconds: number): string {
+  if (seconds <= 0) return "Siap vote!";
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
 export default function VotePage() {
+  const [countdown, setCountdown] = useState(NEXT_VOTE_SECONDS);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen py-16">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-widest mb-4">
             <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
@@ -44,7 +59,47 @@ export default function VotePage() {
           </p>
         </div>
 
-        {/* Vote Rewards Info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+          <Card className="border-white/8 md:col-span-1">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-orange-400/10 border border-orange-400/20 flex items-center justify-center shrink-0">
+                <Flame className="w-6 h-6 text-orange-400" />
+              </div>
+              <div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mb-0.5">Streak Votemu</div>
+                <div className="text-2xl font-black text-orange-400">{MOCK_STREAK} Hari</div>
+                <div className="text-xs text-white/40 mt-0.5">Terus pertahankan!</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-white/8 md:col-span-1">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-sky-400/10 border border-sky-400/20 flex items-center justify-center shrink-0">
+                <Clock className="w-6 h-6 text-sky-400" />
+              </div>
+              <div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mb-0.5">Vote Berikutnya</div>
+                <div className="text-2xl font-black text-sky-400 font-mono">{formatCountdown(countdown)}</div>
+                <div className="text-xs text-white/40 mt-0.5">Cooldown vote selanjutnya</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-white/8 md:col-span-1">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-purple-400/10 border border-purple-400/20 flex items-center justify-center shrink-0">
+                <Users className="w-6 h-6 text-purple-400" />
+              </div>
+              <div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mb-0.5">Total Vote Komunitas</div>
+                <div className="text-2xl font-black text-purple-400">{MOCK_COMMUNITY_VOTES.toLocaleString("id-ID")}</div>
+                <div className="text-xs text-white/40 mt-0.5">Vote bulan ini</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="mb-12">
           <h2 className="text-xl font-bold text-white mb-5 text-center">Vote Rewards</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -60,11 +115,10 @@ export default function VotePage() {
           </div>
         </div>
 
-        {/* Vote Sites */}
         <div className="mb-12">
           <h2 className="text-xl font-bold text-white mb-5 text-center">Vote Sites</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {voteSites.map((site, i) => (
+            {voteSites.map((site) => (
               <Card key={site.name} className="border-white/8 card-hover">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-3">
@@ -104,7 +158,6 @@ export default function VotePage() {
           </div>
         </div>
 
-        {/* How to Vote */}
         <div className="glass border border-white/10 rounded-3xl p-8 text-center">
           <h3 className="text-2xl font-black text-white mb-3">Cara Vote</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">

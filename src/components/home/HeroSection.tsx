@@ -18,6 +18,7 @@ const MOTD_MESSAGES = [
 export default function HeroSection() {
   const [copied, setCopied] = useState(false);
   const [motdIndex, setMotdIndex] = useState(0);
+  const [onlinePlayers, setOnlinePlayers] = useState<number | null>(null);
   const discordUrl = useDiscordUrl();
 
   useEffect(() => {
@@ -25,6 +26,13 @@ export default function HeroSection() {
       setMotdIndex((i) => (i + 1) % MOTD_MESSAGES.length);
     }, 3000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/online-players")
+      .then((r) => r.json())
+      .then((data) => setOnlinePlayers(data.online ?? null))
+      .catch(() => setOnlinePlayers(null));
   }, []);
 
   const copyIP = () => {
@@ -204,9 +212,11 @@ export default function HeroSection() {
           className="inline-flex items-center gap-3 px-6 py-3 glass rounded-2xl border border-white/10 mb-12"
         >
           <div className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-sky-400" />
-            <span className="text-white/60 text-sm">Players Online:</span>
-            <span className="text-white font-bold">Loading...</span>
+            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-white/60 text-sm">Online:</span>
+            <span className="text-white font-bold">
+              {onlinePlayers !== null ? `${onlinePlayers} pemain` : "Memuat..."}
+            </span>
           </div>
           <div className="w-px h-4 bg-white/10" />
           <span className="text-white/60 text-sm">IP:</span>

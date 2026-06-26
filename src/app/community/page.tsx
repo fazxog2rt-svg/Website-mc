@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
-import { ExternalLink, MessageCircle, Camera, PlayCircle, Music2, Users, Star } from "lucide-react";
+import Image from "next/image";
+import { ExternalLink, MessageCircle, Camera, PlayCircle, Music2, Users, Star, Mountain, Trophy } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -48,6 +49,15 @@ function getSocialPlatforms(discordUrl: string) { return [
     badge: "Trending",
   },
 ]; }
+
+const featuredIslands = [
+  { ownerUsername: "StormKing", ownerUUID: "069a79f4-44e9-4726-a5be-fca90e38aaf5", islandName: "Storm Citadel", description: "Island berbentuk kastil besar dengan menara tinggi dan moat penuh air.", islandLevel: 487, islandValue: 12500000, votes: 342, gradient: "from-sky-500/30 to-blue-700/30" },
+  { ownerUsername: "IsleQueen", ownerUUID: "853c80ef-3c37-49fd-aa49-938b674adae6", islandName: "Crystal Paradise", description: "Island dengan dekorasi kristal cantik dan taman bunga warna-warni.", islandLevel: 412, islandValue: 9800000, votes: 289, gradient: "from-pink-500/30 to-fuchsia-700/30" },
+  { ownerUsername: "NightForge", ownerUUID: "61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", islandName: "Obsidian Tower", description: "Menara obsidian menjulang dengan lab enchanting tersembunyi di bawahnya.", islandLevel: 391, islandValue: 8600000, votes: 256, gradient: "from-purple-500/30 to-violet-700/30" },
+  { ownerUsername: "SkyCraft", ownerUUID: "107af014-4e17-4bf4-9b7c-dc3f75049c1e", islandName: "Sky Garden", description: "Taman melayang yang penuh dengan tanaman eksotis dan rumah pohon.", islandLevel: 345, islandValue: 7200000, votes: 198, gradient: "from-green-500/30 to-emerald-700/30" },
+  { ownerUsername: "DragonMage", ownerUUID: "e6b5c840-c20d-47a2-a1d2-6fbba4de4c18", islandName: "Dragon Lair", description: "Sarang naga epik dengan dungeon di bawah tanah dan harta karun tersembunyi.", islandLevel: 329, islandValue: 6700000, votes: 187, gradient: "from-red-500/30 to-orange-700/30" },
+  { ownerUsername: "AquaLord", ownerUUID: "3c2ead6f-d7ab-4a52-8e1f-c5b76e8fd59a", islandName: "Ocean Depths", description: "Island bawah air dengan struktur koral dan jalan kaca transparan.", islandLevel: 298, islandValue: 5900000, votes: 165, gradient: "from-cyan-500/30 to-teal-700/30" },
+];
 
 const galleryItems = [
   { title: "Island of the Month - June 2025", author: "StormKing", gradient: "from-sky-500/40 to-blue-700/40" },
@@ -115,6 +125,64 @@ export default function CommunityPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Island Showcase */}
+        <div className="mb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-black text-white">
+              Island <span className="gradient-text">Showcase</span>
+            </h2>
+            <div className="flex items-center gap-1.5 text-xs text-white/40">
+              <Trophy className="w-3.5 h-3.5" />
+              Juni 2026
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {featuredIslands.map((island) => (
+              <Card key={island.ownerUsername} className="border-white/8 card-hover group overflow-hidden">
+                <div className={`h-28 bg-gradient-to-br ${island.gradient} relative`}>
+                  <div className="absolute inset-0 bg-dots opacity-20" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                    <Mountain className="w-16 h-16 text-white" />
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/5 border border-white/10 shrink-0">
+                      <Image
+                        src={`https://crafatar.com/avatars/${island.ownerUUID}?size=40&overlay`}
+                        alt={island.ownerUsername}
+                        width={40}
+                        height={40}
+                        className="w-full h-full object-cover"
+                        unoptimized
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-bold text-white text-sm truncate">{island.islandName}</div>
+                      <div className="text-xs text-white/40">oleh {island.ownerUsername}</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/50 mb-3 leading-relaxed line-clamp-2">{island.description}</p>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="glass rounded-lg p-1.5">
+                      <div className="text-xs font-bold text-sky-400">Lv.{island.islandLevel}</div>
+                      <div className="text-[10px] text-white/35">Level</div>
+                    </div>
+                    <div className="glass rounded-lg p-1.5">
+                      <div className="text-xs font-bold text-yellow-400">{(island.islandValue / 1000000).toFixed(1)}M</div>
+                      <div className="text-[10px] text-white/35">Nilai</div>
+                    </div>
+                    <div className="glass rounded-lg p-1.5">
+                      <div className="text-xs font-bold text-pink-400">{island.votes}</div>
+                      <div className="text-[10px] text-white/35">Votes</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Gallery */}

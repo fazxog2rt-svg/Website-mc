@@ -38,4 +38,7 @@ export const NAVIGATION_ITEMS = [
   { label: "News", href: "/news" },
   { label: "Leaderboard", href: "/leaderboard" },
   { label: "Community", href: "/community" },
+  { label: "Events", href: "/events" },
+  { label: "Changelog", href: "/changelog" },
+  { label: "Staff", href: "/staff" },
 ] as const;
