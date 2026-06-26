@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: "Bergabung dengan komunitas SkyForge di berbagai platform.",
 };
 
-const socialPlatforms = [
+function getSocialPlatforms(discordUrl: string) { return [
   {
     name: "Discord",
     description: "Server utama komunitas SkyForge. Chat, voice, support, dan event eksklusif.",
     icon: MessageCircle,
-    url: SITE_CONFIG.discordUrl,
+    url: discordUrl,
     color: "from-indigo-400 to-indigo-600",
     members: "12,500+",
     badge: "Most Active",
@@ -47,7 +47,7 @@ const socialPlatforms = [
     members: "3,800+",
     badge: "Trending",
   },
-];
+]; }
 
 const galleryItems = [
   { title: "Island of the Month - June 2025", author: "StormKing", gradient: "from-sky-500/40 to-blue-700/40" },
@@ -59,6 +59,11 @@ const galleryItems = [
 ];
 
 export default function CommunityPage() {
+  const discordUrl =
+    process.env.DISCORD_INVITE_URL ||
+    process.env.NEXT_PUBLIC_DISCORD_INVITE ||
+    "https://discord.gg/3NAKrYaBgh";
+  const socialPlatforms = getSocialPlatforms(discordUrl);
   return (
     <div className="min-h-screen py-16">
       <div className="container mx-auto px-4 max-w-6xl">

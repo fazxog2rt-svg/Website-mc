@@ -3,8 +3,9 @@ import React from "react";
 import Link from "next/link";
 import { Sword, ExternalLink, MessageCircle, Camera, PlayCircle, Music2 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
+import { useDiscordUrl } from "@/hooks/useDiscordUrl";
 
-const footerLinks = {
+const staticFooterLinks = {
   Server: [
     { label: "Features", href: "/features" },
     { label: "Leaderboard", href: "/leaderboard" },
@@ -16,12 +17,6 @@ const footerLinks = {
     { label: "Cosmetics", href: "/store/cosmetics" },
     { label: "SkyCoins", href: "/store/coins" },
     { label: "Bundles", href: "/store/bundles" },
-  ],
-  Community: [
-    { label: "Discord", href: SITE_CONFIG.discordUrl, external: true },
-    { label: "Instagram", href: SITE_CONFIG.instagramUrl, external: true },
-    { label: "YouTube", href: SITE_CONFIG.youtubeUrl, external: true },
-    { label: "TikTok", href: SITE_CONFIG.tiktokUrl, external: true },
   ],
   Support: [
     { label: "Wiki", href: "/wiki" },
@@ -36,6 +31,16 @@ function cn(...classes: (string | undefined | null | false)[]) {
 }
 
 export default function Footer() {
+  const discordUrl = useDiscordUrl();
+  const footerLinks = {
+    ...staticFooterLinks,
+    Community: [
+      { label: "Discord", href: discordUrl, external: true },
+      { label: "Instagram", href: SITE_CONFIG.instagramUrl, external: true },
+      { label: "YouTube", href: SITE_CONFIG.youtubeUrl, external: true },
+      { label: "TikTok", href: SITE_CONFIG.tiktokUrl, external: true },
+    ],
+  };
   return (
     <footer className="relative mt-32 border-t border-white/5">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-500/50 to-transparent" />
@@ -63,7 +68,7 @@ export default function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-3">
               {[
-                { icon: MessageCircle, href: SITE_CONFIG.discordUrl, label: "Discord", color: "hover:text-indigo-400 hover:bg-indigo-400/10" },
+                { icon: MessageCircle, href: discordUrl, label: "Discord", color: "hover:text-indigo-400 hover:bg-indigo-400/10" },
                 { icon: Camera, href: SITE_CONFIG.instagramUrl, label: "Instagram", color: "hover:text-pink-400 hover:bg-pink-400/10" },
                 { icon: PlayCircle, href: SITE_CONFIG.youtubeUrl, label: "YouTube", color: "hover:text-red-400 hover:bg-red-400/10" },
                 { icon: Music2, href: SITE_CONFIG.tiktokUrl, label: "TikTok", color: "hover:text-white hover:bg-white/10" },

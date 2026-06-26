@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Play, Copy, Check, ExternalLink, ChevronDown, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE_CONFIG } from "@/lib/constants";
+import { useDiscordUrl } from "@/hooks/useDiscordUrl";
 import { toast } from "sonner";
 
 const MOTD_MESSAGES = [
@@ -17,6 +18,7 @@ const MOTD_MESSAGES = [
 export default function HeroSection() {
   const [copied, setCopied] = useState(false);
   const [motdIndex, setMotdIndex] = useState(0);
+  const discordUrl = useDiscordUrl();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -180,7 +182,7 @@ export default function HeroSection() {
             {copied ? "Copied!" : "Copy IP"}
           </Button>
 
-          <a href={SITE_CONFIG.discordUrl} target="_blank" rel="noopener noreferrer">
+          <a href={discordUrl} target="_blank" rel="noopener noreferrer">
             <Button variant="secondary" size="xl" className="gap-3 text-base bg-indigo-500/20 border border-indigo-500/30 hover:bg-indigo-500/30">
               <ExternalLink className="w-5 h-5" />
               Discord
