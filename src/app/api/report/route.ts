@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function POST(request: Request) {
@@ -33,5 +33,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, id: report.id }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json({ error: "ID wajib diisi" }, { status: 400 });
+  }
+
+  try {
+    const report = await db.bugReport.findUnique({ where: { id } });
+    if (!report) {
+      return NextResponse.json({ error: "Laporan tidak ditemukan" }, { status: 404 });
+    }
+    return NextResponse.json({
+      id: report.id,
+      title: report.title,
+      category: report.category,
+      severity: report.severity,
+      status: report.status,
+      createdAt: report.createdAt,
+      updatedAt: report.updatedAt,
+    });
+  } catch {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

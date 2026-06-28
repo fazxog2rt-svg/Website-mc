@@ -385,4 +385,64 @@ model IslandShowcase {
   month         Int
   year          Int
   createdAt     DateTime @default(now())
+
+  islandVotes IslandVote[]
+}
+
+model IslandVote {
+  id          String        @id @default(cuid())
+  islandId    String
+  voterIp     String
+  createdAt   DateTime      @default(now())
+
+  island IslandShowcase @relation(fields: [islandId], references: [id], onDelete: Cascade)
+
+  @@unique([islandId, voterIp])
+}
+
+model ForumThread {
+  id          String       @id @default(cuid())
+  title       String
+  content     String
+  category    String       @default("General")
+  authorName  String
+  authorUUID  String?
+  isPinned    Boolean      @default(false)
+  isLocked    Boolean      @default(false)
+  viewCount   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  replies ForumReply[]
+}
+
+model ForumReply {
+  id         String      @id @default(cuid())
+  threadId   String
+  content    String
+  authorName String
+  authorUUID String?
+  isStaff    Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+
+  thread ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+}
+
+model BazaarPriceHistory {
+  id         String   @id @default(cuid())
+  itemId     String
+  itemName   String
+  price      Float
+  volume     Int      @default(0)
+  recordedAt DateTime @default(now())
+
+  @@index([itemId])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  endpoint  String   @unique
+  p256dhKey String
+  authKey   String
+  createdAt DateTime @default(now())
 }

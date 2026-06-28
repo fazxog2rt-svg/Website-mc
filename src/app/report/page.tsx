@@ -59,12 +59,20 @@ export default function ReportPage() {
             <CheckCircle className="w-10 h-10 text-green-400" />
           </div>
           <h2 className="text-3xl font-black text-white mb-3">Laporan Terkirim!</h2>
-          <p className="text-white/60 mb-6">
-            Terima kasih telah melaporkan bug ini. Tim kami akan segera menyelidiki dan memperbaikinya. ID laporan telah dikirim ke Discord kamu jika tersedia.
+          <p className="text-white/60 mb-4">
+            Terima kasih telah melaporkan bug ini. Tim kami akan segera menyelidiki dan memperbaikinya.
           </p>
-          <Button variant="outline" onClick={() => setSubmitted(false)}>
-            Laporkan Bug Lain
-          </Button>
+          <div className="glass border border-white/10 rounded-xl px-4 py-3 mb-6 text-sm text-white/60">
+            Gunakan <a href="/report/tracker" className="text-sky-400 hover:underline font-semibold">Bug Tracker</a> untuk memantau status laporan kamu.
+          </div>
+          <div className="flex gap-3 justify-center">
+            <Button variant="outline" onClick={() => setSubmitted(false)}>
+              Laporkan Bug Lain
+            </Button>
+            <a href="/report/tracker">
+              <Button variant="glow">Cek Status Laporan</Button>
+            </a>
+          </div>
         </div>
       </div>
     );

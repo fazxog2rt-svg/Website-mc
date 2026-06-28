@@ -8,6 +8,7 @@ import JoinGuideSection from "@/components/home/JoinGuideSection";
 import RanksPreviewSection from "@/components/home/RanksPreviewSection";
 import NewsPreviewSection from "@/components/home/NewsPreviewSection";
 import FAQSection from "@/components/home/FAQSection";
+import EventCountdownSection from "@/components/home/EventCountdownSection";
 import ParticleBackground from "@/components/shared/ParticleBackground";
 import type { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <ParticleBackground />
       <HeroSection />
       <StatsSection />
+      <EventCountdownSection />
       <FeaturesShowcase />
       <FeaturesSection />
       <TestimonialsSection />

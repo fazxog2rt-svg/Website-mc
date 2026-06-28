@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import PushNotificationManager from "@/components/shared/PushNotificationManager";
 import { Toaster } from "sonner";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
             },
           }}
         />
+        <PushNotificationManager />
       </body>
     </html>
   );

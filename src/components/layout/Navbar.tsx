@@ -5,12 +5,10 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, ChevronDown, Sword, ShoppingBag, Vote, BookOpen,
-  Newspaper, Trophy, Users, Home, Zap, LogIn, User, Settings,
-  LogOut, Shield
+  Newspaper, Trophy, Users, Home, Zap, LogIn, Shield,
+  Mountain, MessageSquare, Heart, Gift, BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -29,12 +27,34 @@ const navItems = [
       { label: "Dungeons", href: "/features/dungeons", icon: Shield },
     ],
   },
-  { label: "Store", href: "/store", icon: ShoppingBag },
+  {
+    label: "Store",
+    href: "/store",
+    icon: ShoppingBag,
+    children: [
+      { label: "Semua Produk", href: "/store", icon: ShoppingBag },
+      { label: "Beli Rank", href: "/store/ranks", icon: Trophy },
+      { label: "Gift Rank", href: "/store/gift", icon: Gift },
+      { label: "Wishlist", href: "/store/wishlist", icon: Heart },
+      { label: "SkyCoins", href: "/store/coins", icon: Zap },
+    ],
+  },
   { label: "Vote", href: "/vote", icon: Vote },
   { label: "Wiki", href: "/wiki", icon: BookOpen },
   { label: "News", href: "/news", icon: Newspaper },
   { label: "Leaderboard", href: "/leaderboard", icon: Trophy },
-  { label: "Community", href: "/community", icon: Users },
+  {
+    label: "Komunitas",
+    href: "/community",
+    icon: Users,
+    children: [
+      { label: "Community", href: "/community", icon: Users },
+      { label: "Forum", href: "/forum", icon: MessageSquare },
+      { label: "Island Showcase", href: "/island-showcase", icon: Mountain },
+      { label: "Events", href: "/events", icon: Newspaper },
+      { label: "Bazaar", href: "/economy/bazaar", icon: BarChart3 },
+    ],
+  },
 ];
 
 export default function Navbar() {
@@ -42,12 +62,25 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [onlinePlayers, setOnlinePlayers] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchPlayers = () => {
+      fetch("/api/online-players")
+        .then((r) => r.json())
+        .then((d) => setOnlinePlayers(d.online ?? null))
+        .catch(() => null);
+    };
+    fetchPlayers();
+    const interval = setInterval(fetchPlayers, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -163,7 +196,7 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-2">
-              {/* Server IP quick copy */}
+              {/* Server IP + Live Players */}
               <button
                 onClick={() => navigator.clipboard?.writeText(SITE_CONFIG.serverIp)}
                 className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass border border-white/10 text-xs text-white/60 hover:text-white hover:border-sky-500/40 transition-all duration-200"
@@ -171,6 +204,13 @@ export default function Navbar() {
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 {SITE_CONFIG.serverIp}
+                {onlinePlayers !== null && (
+                  <>
+                    <span className="text-white/20 mx-0.5">·</span>
+                    <span className="text-emerald-400 font-semibold">{onlinePlayers}</span>
+                    <span className="text-white/40">online</span>
+                  </>
+                )}
               </button>
 
               <Link href="/auth/signin">
