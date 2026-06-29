@@ -37,7 +37,7 @@ export default function AnnouncementBar() {
   if (!mounted || dismissed) return null;
 
   return (
-    <div className="relative z-50 bg-gradient-to-r from-sky-600 to-purple-600 overflow-hidden">
+    <div className="relative bg-gradient-to-r from-sky-950/95 to-purple-950/95 backdrop-blur-sm border-b border-white/8 overflow-hidden">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-9">
           <div className="shrink-0 flex items-center gap-1.5 text-white/80">

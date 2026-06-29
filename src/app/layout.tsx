@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import PushNotificationManager from "@/components/shared/PushNotificationManager";
 import { Toaster } from "sonner";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -54,9 +53,9 @@ export default function RootLayout({
   return (
     <html lang="id" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <AnnouncementBar />
         <Navbar />
-        <main className="pt-16 md:pt-20">{children}</main>
+        {/* pt accounts for announcement bar (36px) + navbar (64px/72px) */}
+        <main className="pt-[100px] md:pt-[108px]">{children}</main>
         <Footer />
         <Toaster
           theme="dark"
