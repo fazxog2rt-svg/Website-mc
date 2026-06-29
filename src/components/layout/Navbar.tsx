@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
 
 const navItems = [
   { label: "Home", href: "/", icon: Home },
@@ -107,9 +106,6 @@ export default function Navbar() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="fixed top-0 left-0 right-0 z-50"
       >
-        {/* Announcement bar sits inside the fixed header */}
-        <AnnouncementBar />
-
         {/* Nav bar row */}
         <div
           className={cn(

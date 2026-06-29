@@ -54,8 +54,7 @@ export default function RootLayout({
     <html lang="id" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
         <Navbar />
-        {/* pt accounts for announcement bar (36px) + navbar (64px/72px) */}
-        <main className="pt-[100px] md:pt-[108px]">{children}</main>
+        <main className="pt-16 md:pt-20">{children}</main>
         <Footer />
         <Toaster
           theme="dark"
